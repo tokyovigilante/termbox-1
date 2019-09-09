@@ -30,7 +30,7 @@ int main() {
 		}
 	}
 
-	tb_present();
+	tb_render();
 
 	while (1) {
 		struct tb_event ev;

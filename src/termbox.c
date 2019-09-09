@@ -580,23 +580,23 @@ static int convertnum(uint8_t num, char* buf) {
 
 uint8_t map_to_base_color(tb_color col) {
   if (col > 255)
-    return TB_WHITE; // TB_DEFAULT;
+    return TB_BASIC_WHITE; // TB_DEFAULT;
   else if (col > 244) // light grays
-    return TB_LIGHT_GRAY;
+    return TB_BASIC_LIGHT_GRAY;
   else if (col > 231) // dark grays
-    return TB_MEDIUM_GRAY;
+    return TB_BASIC_MEDIUM_GRAY;
   else if (col == 16)
-    return TB_BLACK;
+    return TB_BASIC_BLACK;
   else if ((col - 16) % 36 == 0)
-    return TB_RED;
+    return TB_BASIC_RED;
   else if ((col - 16) % 6 == 0)
-    return TB_GREEN;
+    return TB_BASIC_GREEN;
   else if ((col - 16) % 3 == 0) // totally unscientific
-    return TB_YELLOW;
+    return TB_BASIC_YELLOW;
   else if (col % 3 == 0) // even less
-    return TB_MAGENTA;
+    return TB_BASIC_MAGENTA;
   else
-    return TB_BLUE;
+    return TB_BASIC_BLUE;
 }
 
 #define WRITE_LITERAL(X) bytebuffer_append(&output_buffer, (X), sizeof(X)-1)

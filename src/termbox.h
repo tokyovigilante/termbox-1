@@ -13,6 +13,7 @@
 extern "C" {
 #endif
 
+#define WITH_TRUECOLOR
 #ifdef WITH_TRUECOLOR
 
 typedef uint32_t tb_color;
@@ -92,6 +93,16 @@ typedef uint16_t tb_color;
 
 #endif
 
+#define TB_BASIC_RED           0x01
+#define TB_BASIC_GREEN         0x02
+#define TB_BASIC_YELLOW        0x03
+#define TB_BASIC_BLUE          0x04
+#define TB_BASIC_MAGENTA       0x05
+#define TB_BASIC_LIGHT_GRAY    0x07
+#define TB_BASIC_MEDIUM_GRAY   0x08
+#define TB_BASIC_WHITE         0x0F
+#define TB_BASIC_BLACK         0x10
+
 #define TB_NONE           TB_DEFAULT
 #define TB_DARKEST_GREY   TB_DARKEST_GRAY
 #define TB_DARKER_GREY    TB_DARKER_GRAY
@@ -133,10 +144,10 @@ struct tb_event {
 	uint16_t key; /* one of the TB_KEY_* constants */
 	uint32_t ch; /* unicode character */
 	uint8_t meta;
-	int16_t w;
-	int16_t h;
-	int16_t x;
-	int16_t y;
+	uint16_t w;
+	uint16_t h;
+	uint16_t x;
+	uint16_t y;
 };
 
 /* Error codes returned by tb_init(). All of them are self-explanatory, except
@@ -170,7 +181,7 @@ SO_IMPORT void tb_shutdown(void);
 
 /* Returns the size of the internal back buffer (which is the same as
  * terminal's window size in characters). The internal buffer can be resized
- * after tb_resize() or tb_present() function calls. Both dimensions have an
+ * after tb_resize() or tb_render() function calls. Both dimensions have an
  * unspecified negative value when called before tb_init() or after
  * tb_shutdown().
  */
@@ -186,7 +197,7 @@ SO_IMPORT void tb_set_clear_attributes(tb_color fg, tb_color bg);
 // Clear screen.
 SO_IMPORT void tb_clear_screen(void);
 
-/* Sincronize the internal back buffer with the terminal. */
+/* Syncronize the internal back buffer with the terminal. */
 SO_IMPORT void tb_render(void);
 
 SO_IMPORT tb_color tb_rgb(uint32_t in);
@@ -228,7 +239,7 @@ SO_IMPORT void tb_cell(int x, int y, const struct tb_cell *cell);
 
 /* Returns a pointer to internal cell back buffer. You can get its dimensions
  * using tb_width() and tb_height() functions. The pointer stays valid as long
- * as no tb_resize() and tb_present() calls are made. The buffer is
+ * as no tb_resize() and tb_render() calls are made. The buffer is
  * one-dimensional buffer containing lines of cells starting from the top.
  */
 SO_IMPORT struct tb_cell *tb_cell_buffer(void);
